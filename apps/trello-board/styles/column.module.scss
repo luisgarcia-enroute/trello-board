@@ -1,0 +1,22 @@
+.column {
+  align-items: center;
+  display: flex;
+  border: 1px solid white;
+  background-color: skyblue;
+  color: black;
+  flex-direction: column;
+  height: 100%;
+  margin: 1rem 0;
+  width: 15rem;
+  .title {
+    border-bottom: 1px solid white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 1rem;
+  }
+  .tickets {
+    
+  }
+}
