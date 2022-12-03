@@ -27,6 +27,7 @@ const Column = (props) => {
       <h3 className={styles.title}>{props.title}</h3>
       <div className={styles.tickets}>
         { 
+          // Temporal solution while I check why the function is not work
           props.title === "To do" ? 
             todoTickets.map((ticket, index) => {
             console.log("Ticket: ", ticket)
