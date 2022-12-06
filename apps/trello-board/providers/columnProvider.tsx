@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const ColumnContext = createContext(undefined);
 
 const ColumnProvider = ({ children }) => {
-  const [todoTickets, setTodoTickets] = useState(["Task 1", "Task 2"])
+  const [todoTickets, setTodoTickets] = useState(["Task 1", "Task 2", "Task 3", "Task 4", "Task 5", "Task 6"])
   const [inProgressTickets, setInProgressTickets] = useState(["Task 1", "Task 2", "Task 3"])
   const [blockedTickets, setBlockedTickets] = useState(["Task 1"])
   const [testingTickets, setTestingTickets] = useState(["Task 1", "Task 2", "Task 3", "Task 4"])
