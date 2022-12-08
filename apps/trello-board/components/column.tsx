@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import styles from '../styles/column.module.scss';
 
 import { useColumnContext } from '../providers/columnProvider';
 import { useDrop } from 'react-dnd';
 
 import Ticket from './ticket'
-//import { Props } from 'next/script';
 
 const Column = (props) => {
 
@@ -18,43 +18,69 @@ const Column = (props) => {
     testingTickets, 
     setTestingTickets,
     doneTickets,
-    setDoneTickets
+    setDoneTickets,
+    addTask,
+    removeTask
   } = useColumnContext()
-  // const [column, setColumn] = useState([])
-  const [{isOver}, drop] = useDrop(() => ({
+
+  // useEffect(() => {
+  //   addTicketToColumn(item.id, item.column, newColumn),
+  // }, [todoTickets, inProgressTickets, blockedTickets, testingTickets, doneTickets])
+
+  const [{isOver, newColumn}, drop] = useDrop(() => ({
     accept: "ticket",
-    drop: (item) => addTicketToColumn(item.id, item.column),
+    drop: (item) => addTicketToColumn(item.id, item.column, newColumn),
     collect: (monitor) => ({
-      isOver: !!monitor.isOver()
+      isOver: !!monitor.isOver(),
+      newColumn: props.title
     })
   }))
 
-  const addTicketToColumn = (id, column) => {
+  const addTicketToColumn = (id, column, newColumn) => {
     console.log("id:", id)
     console.log("column:", column)
-    if (column === "To do") {
-      setTodoTickets(todoTickets.slice(1))
-      setInProgressTickets([...inProgressTickets, "New task"])
+    switch (column) {
+      case "To do":
+        setTodoTickets(todoTickets.slice(1));
+        console.log("Todo tickets:", todoTickets)
+        break;
+      case "In progress":
+        setInProgressTickets(inProgressTickets.slice(1));
+        break;
+      case "Blocked":
+        setTodoTickets(todoTickets.slice(1));
+        break;
+      case "Testing":
+        setTodoTickets(todoTickets.slice(1));
+        break;
+      case "Done":
+        setTodoTickets(todoTickets.slice(1));
+        break;
+      default:
+        console.log('column');
     }
-    // 1. Grab the column title for which the ticket belongs
-    // 2. When dropping grab the column title in which the ticket was dropped
-    // 3. Remove ticket from the first column array
-    // 4. Add ticket to the second column array
 
+    switch (newColumn) {
+      case "To do":
+        setTodoTickets([...todoTickets, "New task"])
+        break;
+      case "In progress":
+        setInProgressTickets([...inProgressTickets, "New task"])
+        console.log("In progress tickets: ", inProgressTickets)
+        break;
+      case "Blocked":
+        setBlockedTickets([...blockedTickets, "New task"])
+        break;
+      case "Testing":
+        setTestingTickets([...testingTickets, "New task"])
+        break;
+      case "Done":
+        setDoneTickets([...doneTickets, "New task"])
+        break;
+      default:
+        console.log('column');
+    }
   }
-
-  /* Currently fixing this because typescript is behaving weirdly */
-
-  // const renderTickets = (ticketsArray): any => {
-  //   ticketsArray.map((ticket, index) => {
-  //     console.log("Ticket: ", ticket)
-  //     return (
-  //       <Ticket key={`ticket-${index}`}/>
-  //     )
-  //   })
-  // }
-
-
 
   return (
     <div className={styles.column} ref={drop}>
@@ -100,6 +126,3 @@ const Column = (props) => {
 }
 
 export default Column
-
-// 1. We know which column it is because of the title prop
-// 2. Knowing which column we have, we can get the correspondent array from context
